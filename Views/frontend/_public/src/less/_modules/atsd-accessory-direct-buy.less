@@ -1,0 +1,129 @@
+
+
+
+.atsd-accessory--container {
+
+
+    border-bottom: 1px solid #dadae5;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+
+
+    .atsd-accessory--group-container {
+
+        margin-bottom: 20px;
+
+        .group--header {
+
+            .is--bold;
+
+            border: 1px solid #dadae5;
+            padding: 10px;
+            .white-gradient();
+
+            .header--column-name {
+                width: 70%;
+            }
+            .header--column-surcharge {
+                width: 20%;
+                .is--align-right;
+                margin-right: 10%;
+            }
+        }
+
+        .group--article-container {
+
+
+            border-bottom: 1px solid #dadae5;
+            border-left: 1px solid #dadae5;
+            border-right: 1px solid #dadae5;
+
+            padding: 10px;
+
+
+
+            .group--article {
+
+                position: relative;
+
+                .article--popup {
+                    padding: 10px;
+                    text-align: center;
+                    display: none;
+                    border: 1px solid #dadae5;
+                    position: absolute;
+                    left: -214px;
+                    z-index: 9999;
+                    width: 200px;
+                    background-color: white;
+                    top: -60px;
+                    opacity: 0.95;
+
+                    .image-container {
+                        height: 150px;
+                        margin-bottom: 10px;
+
+                        img {
+                            margin: auto;
+                        }
+                    }
+
+                }
+
+                .article--column-quantity {
+                    width: 10%;
+                }
+                .article--column-name{
+                    width: 60%;
+
+                    a {
+                        color: inherit;
+                    }
+
+                }
+                .article--column-price{
+                    width: 20%;
+                    .is--align-right;
+                }
+                .article--column-selection{
+                    width: 10%;
+                    .is--align-right;
+                }
+            }
+
+
+            // show the popup on hover
+            .group--article:hover {
+                .article--popup {
+                    display: block;
+                }
+            }
+
+        }
+
+    }
+
+
+    .atsd-accessory--group-container.is--last {
+        margin-bottom: 0;
+    }
+
+
+
+}
+
+
+
+
+// always hide the article popup in lower resolution
+@media screen and (max-width: @tabletLandscapeViewportWidth)
+{
+    .atsd-accessory--container {
+        .group--article {
+            .article--popup {
+                display: none !important;
+            }
+        }
+    }
+}
+
