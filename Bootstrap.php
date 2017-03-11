@@ -44,6 +44,9 @@
  * 2.0.6
  * - revoked 2.0.5
  *
+ * 2.0.7
+ * - added default snippet as group name
+ *
  * @category  Aquatuning
  * @package   Shopware\Plugins\AtsdArticleAccessoryDirectBuy
  * @copyright Copyright (c) 2013, Aquatuning GmbH
@@ -54,7 +57,7 @@ class Shopware_Plugins_Frontend_AtsdArticleAccessoryDirectBuy_Bootstrap extends 
 
     // info
     private $plugin_info = array(
-        'version'     => "2.0.6",
+        'version'     => "2.0.7",
         'label'       => "ATSD - Artikel Direkt-Kauf",
         'description' => "ATSD - Artikel Direkt-Kauf",
         'supplier'    => "Aquatuning GmbH",

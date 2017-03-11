@@ -24,7 +24,7 @@
 
                 {* group header *}
                 <div class="block-group group--header">
-                    <div class="block header--column-name">{$group.name}</div>
+                    <div class="block header--column-name">{s name="LabelGroupNsme"}Empfohlenes Zubehör{/s}</div>
                     <div class="block header--column-surcharge">{s name="LabelSurcharge"}Aufpreis{/s}</div>
                 </div>
 
