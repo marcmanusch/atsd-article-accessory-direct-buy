@@ -35,8 +35,6 @@ class Install
 	 * ...
 	 *
 	 * @param \Shopware_Components_Plugin_Bootstrap   $bootstrap
-	 *
-	 * @return \Shopware\AtsdArticleAccessoryDirectBuy\Bootstrap\Install
 	 */
 
 	public function __construct( \Shopware_Components_Plugin_Bootstrap $bootstrap )
@@ -60,38 +58,12 @@ class Install
 	public function install()
 	{
 		// install
-		$this->installSubscribeEvents();
 		$this->installCreateDatabase();
 
 		// return
 		return true;
 	}
 
-
-
-
-
-
-	/**
-	 * Registers all necessary events and hooks.
-	 *
-	 * @return void
-	 */
-
-	private function installSubscribeEvents()
-	{
-		//
-		$this->bootstrap->subscribeEvent(
-			"Enlight_Controller_Dispatcher_ControllerPath_Backend_AtsdArticleAccessoryDirectBuy",
-			"onGetControllerPathBackend"
-		);
-
-		//
-		$this->bootstrap->subscribeEvent(
-			"Shopware_Controllers_Frontend_Checkout::addAccessoriesAction::before",
-			"addAccessoriesActionDebug"
-		);
-	}
 
 
 

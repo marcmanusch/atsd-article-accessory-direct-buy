@@ -47,17 +47,25 @@
  * 2.0.7
  * - added default snippet as group name
  *
+ * 2.1.0
+ * - added shopware 5.3 compatibility (sw5.3 only)
+ *
  * @category  Aquatuning
  * @package   Shopware\Plugins\AtsdArticleAccessoryDirectBuy
  * @copyright Copyright (c) 2013, Aquatuning GmbH
  */
 
+use Shopware\AtsdArticleAccessoryDirectBuy\Bootstrap;
+use Shopware\AtsdArticleAccessoryDirectBuy\Subscriber;
+
+
+
 class Shopware_Plugins_Frontend_AtsdArticleAccessoryDirectBuy_Bootstrap extends Shopware_Components_Plugin_Bootstrap
 {
 
     // info
-    private $plugin_info = array(
-        'version'     => "2.0.7",
+    private $pluginInfo = array(
+        'version'     => "2.1.0",
         'label'       => "ATSD - Artikel Direkt-Kauf",
         'description' => "ATSD - Artikel Direkt-Kauf",
         'supplier'    => "Aquatuning GmbH",
@@ -72,7 +80,7 @@ class Shopware_Plugins_Frontend_AtsdArticleAccessoryDirectBuy_Bootstrap extends 
     );
     
     // get capabilities
-    private $plugin_capabilities = array(
+    private $pluginCapabilities = array(
         'install' => true,
         'update'  => true,
         'enable'  => true
@@ -98,7 +106,7 @@ class Shopware_Plugins_Frontend_AtsdArticleAccessoryDirectBuy_Bootstrap extends 
     
     public function getVersion()
     {
-        return $this->plugin_info['version'];
+        return $this->pluginInfo['version'];
     }
     
     
@@ -111,7 +119,7 @@ class Shopware_Plugins_Frontend_AtsdArticleAccessoryDirectBuy_Bootstrap extends 
     
     public function getLabel()
     {
-        return $this->plugin_info['label'];
+        return $this->pluginInfo['label'];
     }
     
 
@@ -124,7 +132,7 @@ class Shopware_Plugins_Frontend_AtsdArticleAccessoryDirectBuy_Bootstrap extends 
     
     public function getInfo()
     {
-        return $this->plugin_info;
+        return $this->pluginInfo;
     } 
      
 
@@ -137,7 +145,7 @@ class Shopware_Plugins_Frontend_AtsdArticleAccessoryDirectBuy_Bootstrap extends 
     
     public function getCapabilities()
     {
-        return $this->plugin_capabilities;
+        return $this->pluginCapabilities;
     }
 
 
@@ -147,7 +155,7 @@ class Shopware_Plugins_Frontend_AtsdArticleAccessoryDirectBuy_Bootstrap extends 
     /**
      * Install our plugin.
      *
-     * @return bool
+     * @return array
      */
 
     public function install()
@@ -155,11 +163,11 @@ class Shopware_Plugins_Frontend_AtsdArticleAccessoryDirectBuy_Bootstrap extends 
         try
         {
             // install the plugin
-            $installer = new \Shopware\AtsdArticleAccessoryDirectBuy\Bootstrap\Install( $this );
+            $installer = new Bootstrap\Install( $this );
             $installer->install();
 
             // update it to current version
-            $updater = new \Shopware\AtsdArticleAccessoryDirectBuy\Bootstrap\Update( $this );
+            $updater = new Bootstrap\Update( $this );
             $updater->install();
 
             // fertig
@@ -182,30 +190,6 @@ class Shopware_Plugins_Frontend_AtsdArticleAccessoryDirectBuy_Bootstrap extends 
 
 
 
-    /**
-     * ...
-     *
-     * @param Enlight_Event_EventArgs   $args
-     *
-     * @return string
-     */
-
-    public function onGetControllerPathBackend( Enlight_Event_EventArgs $args )
-    {
-        // load our template path
-        Shopware()->Template()->addTemplateDir(
-            $this->Path() . "Views/"
-        );
-
-        // return our controller
-        return $this->Path(). "Controllers/Backend/AtsdArticleAccessoryDirectBuy.php";
-    }
-
-
-
-
-
-
 
     /**
      * ...
@@ -219,16 +203,16 @@ class Shopware_Plugins_Frontend_AtsdArticleAccessoryDirectBuy_Bootstrap extends 
     {
         // subscribers to add
         $subscribers = array(
-            new \Shopware\AtsdArticleAccessoryDirectBuy\Subscriber\Controllers\Backend\Article( $this, $this->get( "service_container" ) ),
-            new \Shopware\AtsdArticleAccessoryDirectBuy\Subscriber\Components\Theme\Compiler( $this ),
-            new \Shopware\AtsdArticleAccessoryDirectBuy\Subscriber\Controllers\Frontend\Detail( $this, $this->get( "service_container" ) ),
-            new \Shopware\AtsdArticleAccessoryDirectBuy\Subscriber\Controllers\Frontend\Checkout( $this, $this->get( "service_container" ) )
+            new Subscriber\Controllers( $this ),
+            new Subscriber\Components\Theme\Compiler( $this ),
+            new Subscriber\Controllers\Backend\Article( $this, $this->get( "service_container" ) ),
+            new Subscriber\Controllers\Frontend\Detail( $this, $this->get( "service_container" ) )
         );
 
         // loop them
         foreach( $subscribers as $subscriber )
             // and add subscriber
-            $this->Application()->Events()->addSubscriber( $subscriber );
+            $this->get( "events" )->addSubscriber( $subscriber );
     }
 
 
@@ -246,16 +230,13 @@ class Shopware_Plugins_Frontend_AtsdArticleAccessoryDirectBuy_Bootstrap extends 
     public function afterInit()
     {
         // register the namespace
-        $this->Application()->Loader()->registerNamespace(
+        $this->get( "loader" )->registerNamespace(
             'Shopware\AtsdArticleAccessoryDirectBuy',
             $this->Path()
         );
 
         // register models
         $this->registerCustomModels();
-
-        // done
-        return;
     }
 
 
@@ -275,7 +256,7 @@ class Shopware_Plugins_Frontend_AtsdArticleAccessoryDirectBuy_Bootstrap extends 
     public function update( $version )
     {
         // update it to current version
-        $updater = new \Shopware\AtsdArticleAccessoryDirectBuy\Bootstrap\Update( $this );
+        $updater = new Bootstrap\Update( $this );
         $updater->update( $version );
 
         // all done
@@ -295,7 +276,7 @@ class Shopware_Plugins_Frontend_AtsdArticleAccessoryDirectBuy_Bootstrap extends 
     public function uninstall()
     {
         // update it to current version
-        $uninstaller = new \Shopware\AtsdArticleAccessoryDirectBuy\Bootstrap\Uninstall( $this );
+        $uninstaller = new Bootstrap\Uninstall( $this );
         $uninstaller->uninstall();
 
         // done

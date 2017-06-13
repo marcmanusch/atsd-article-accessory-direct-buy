@@ -35,8 +35,6 @@ class Update
 	 * ...
 	 *
 	 * @param \Shopware_Components_Plugin_Bootstrap   $bootstrap
-	 *
-	 * @return \Shopware\AtsdArticleAccessoryDirectBuy\Bootstrap\Update
 	 */
 
 	public function __construct( \Shopware_Components_Plugin_Bootstrap $bootstrap )
@@ -95,6 +93,15 @@ class Update
 			case "1.0.4":
 			case "1.0.5":
 				$this->updateVersion200();
+            case "2.0.0":
+            case "2.0.1":
+            case "2.0.2":
+            case "2.0.3":
+            case "2.0.4":
+            case "2.0.5":
+            case "2.0.6":
+            case "2.0.7":
+                $this->updateVersion210();
 		}
 
 		// all done
@@ -125,9 +132,6 @@ class Update
 				'value'       => true
 			)
 		);
-
-		// done
-		return;
 	}
 
 
@@ -154,9 +158,6 @@ class Update
 				'scope'       => \Shopware\Models\Config\Element::SCOPE_SHOP
 			)
 		);
-
-		// done
-		return;
 	}
 
 
@@ -176,11 +177,35 @@ class Update
 			"Enlight_Controller_Front_DispatchLoopStartup",
 			"onStartDispatch"
 		);
-
-		// done
-		return;
 	}
 
+
+
+
+
+    /**
+     * ...
+     *
+     * @return void
+     */
+
+    protected function updateVersion210()
+    {
+        // remove subscriber for backend controller
+        $query = "
+		    DELETE FROM s_core_subscribes
+		    WHERE subscribe = 'Enlight_Controller_Dispatcher_ControllerPath_Backend_AtsdArticleAccessoryDirectBuy'
+		";
+        Shopware()->Db()->query( $query );
+
+        // remove checkout hook
+        $query = "
+		    DELETE FROM s_core_subscribes
+		    WHERE subscribe = 'Shopware_Controllers_Frontend_Checkout::addAccessoriesAction::before'
+		        AND listener LIKE '%AtsdArticleAccessoryDirectBuy%'
+		";
+        Shopware()->Db()->query( $query );
+    }
 
 
 

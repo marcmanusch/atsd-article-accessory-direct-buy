@@ -56,8 +56,6 @@ class Detail implements \Enlight\Event\SubscriberInterface
 	 *
 	 * @param \Shopware_Components_Plugin_Bootstrap                $bootstrap
 	 * @param \Shopware\Components\DependencyInjection\Container   $container
-	 *
-	 * @return \Shopware\AtsdArticleAccessoryDirectBuy\Subscriber\Controllers\Frontend\Detail
 	 */
 
 	public function __construct( \Shopware_Components_Plugin_Bootstrap $bootstrap, \Shopware\Components\DependencyInjection\Container $container )
@@ -145,31 +143,11 @@ class Detail implements \Enlight\Event\SubscriberInterface
 
 
 
-        /*
-		// only if we have even have groups
-		if ( count( $groups ) == 0 )
-			// dont do anything
-			return;
-        */
-
-
-
-		// we have to set default shopware accessories or the block wont be displayed
-		// $article['sAccessories'] = true;
-
-		// re-assign the article
-		// $view->assign( "sArticle", $article );
-
-
-
 		// assign them to the view
 		$view->assign( "atsdAccessories", $groups );
 
 		// add our template dir
 		$view->addTemplateDir( $this->bootstrap->Path() . "Views/" );
-
-		// and we re done
-		return;
 	}
 
 

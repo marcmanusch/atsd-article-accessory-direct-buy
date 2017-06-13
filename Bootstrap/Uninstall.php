@@ -35,8 +35,6 @@ class Uninstall
 	 * ...
 	 *
 	 * @param \Shopware_Components_Plugin_Bootstrap   $bootstrap
-	 *
-	 * @return \Shopware\AtsdArticleAccessoryDirectBuy\Bootstrap\Uninstall
 	 */
 
 	public function __construct( \Shopware_Components_Plugin_Bootstrap $bootstrap )
@@ -83,9 +81,6 @@ class Uninstall
 		// get entity manager
 		$em = Shopware()->Models();
 
-		// debug
-		$em->getConnection()->getDatabasePlatform()->registerDoctrineTypeMapping( "enum", "string" );
-
 		// get our schema tool
 		$tool = new \Doctrine\ORM\Tools\SchemaTool( $em );
 
@@ -97,9 +92,6 @@ class Uninstall
 
 		// and remove them
 		$tool->dropSchema( $classes );
-
-		// done
-		return;
 	}
 
 

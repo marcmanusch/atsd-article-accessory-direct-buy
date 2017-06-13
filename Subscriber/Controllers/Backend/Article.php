@@ -46,8 +46,6 @@ class Article implements \Enlight\Event\SubscriberInterface
 	 *
 	 * @param \Shopware_Components_Plugin_Bootstrap                $bootstrap
 	 * @param \Shopware\Components\DependencyInjection\Container   $container
-	 *
-	 * @return \Shopware\AtsdArticleAccessoryDirectBuy\Subscriber\Controllers\Backend\Article
 	 */
 
 	public function __construct( \Shopware_Components_Plugin_Bootstrap $bootstrap, \Shopware\Components\DependencyInjection\Container $container )
@@ -99,7 +97,7 @@ class Article implements \Enlight\Event\SubscriberInterface
 	{
 		// controller
 		/* @var $controller \Shopware_Controllers_Backend_Article */
-		$controller = $args->getSubject();
+		$controller = $args->get( "subject" );
 
 		// get the view
 		$view = $controller->View();
@@ -108,19 +106,14 @@ class Article implements \Enlight\Event\SubscriberInterface
 		$view->addTemplateDir( $this->bootstrap->Path() . "Views/" );
 
 		// if the controller action name equals "load" we have to load all application components.
-		if ( $args->getRequest()->getActionName() === "load" )
-		{
+		if ( $controller->Request()->getActionName() === "load" )
 			// load extended templates
 			$view->extendsTemplate( 'backend/atsd_article_accessory_direct_buy/article/view/detail/window.js' );
-		}
 
 		// if the controller action name equals "index" we have to extend the backend article application
-		if ( $args->getRequest()->getActionName() === "index" )
+        if ( $controller->Request()->getActionName() === "index" )
 			// load our app
 			$view->extendsTemplate( 'backend/atsd_article_accessory_direct_buy/article/atsd_article_accessory_direct_buy_app.js' );
-
-		// and we re done
-		return;
 	}
 
 
