@@ -113,7 +113,7 @@
 
 
     // wait till the document is ready
-    $( document ).ready( function() {
+    document.asyncReady( function() {
         // call our plugin
         $( "body" ).atsdAccessoryDirectBuy();
     });

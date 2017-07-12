@@ -50,6 +50,9 @@
  * 2.1.0
  * - added shopware 5.3 compatibility (sw5.3 only)
  *
+ * 2.1.1
+ * - added asynchronous loading of jquery plugin
+ *
  * @category  Aquatuning
  * @package   Shopware\Plugins\AtsdArticleAccessoryDirectBuy
  * @copyright Copyright (c) 2013, Aquatuning GmbH
@@ -65,7 +68,7 @@ class Shopware_Plugins_Frontend_AtsdArticleAccessoryDirectBuy_Bootstrap extends 
 
     // info
     private $pluginInfo = array(
-        'version'     => "2.1.0",
+        'version'     => "2.1.1",
         'label'       => "ATSD - Artikel Direkt-Kauf",
         'description' => "ATSD - Artikel Direkt-Kauf",
         'supplier'    => "Aquatuning GmbH",

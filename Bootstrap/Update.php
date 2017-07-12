@@ -58,10 +58,7 @@ class Update
 	public function install()
 	{
 		// install updates
-		$this->update( "1.0.0" );
-
-		// done
-		return true;
+		return $this->update( "0.0.0" );
 	}
 
 
@@ -84,6 +81,7 @@ class Update
 		// check current installed version
 		switch ( $version )
 		{
+            case "0.0.0":
 			case "1.0.0":
 			case "1.0.1":
 				$this->updateVersion102();
