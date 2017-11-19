@@ -53,6 +53,9 @@
  * 2.1.1
  * - added asynchronous loading of jquery plugin
  *
+ * 2.1.2
+ * - fixed article images
+ *
  * @category  Aquatuning
  * @package   Shopware\Plugins\AtsdArticleAccessoryDirectBuy
  * @copyright Copyright (c) 2013, Aquatuning GmbH
@@ -68,7 +71,7 @@ class Shopware_Plugins_Frontend_AtsdArticleAccessoryDirectBuy_Bootstrap extends 
 
     // info
     private $pluginInfo = array(
-        'version'     => "2.1.1",
+        'version'     => "2.1.2",
         'label'       => "ATSD - Artikel Direkt-Kauf",
         'description' => "ATSD - Artikel Direkt-Kauf",
         'supplier'    => "Aquatuning GmbH",

@@ -10,6 +10,9 @@
 
 namespace Shopware\AtsdArticleAccessoryDirectBuy\Subscriber\Controllers\Frontend;
 
+use Shopware\Bundle\MediaBundle\MediaService;
+use Enlight_Controller_Request_Request as Request;
+
 
 
 /**
@@ -139,7 +142,7 @@ class Detail implements \Enlight\Event\SubscriberInterface
 
 
 		// get the groups
-		$groups = $this->getAccessories( $article["articleID"] );
+		$groups = $this->getAccessories( $article["articleID"], $request );
 
 
 
@@ -160,11 +163,12 @@ class Detail implements \Enlight\Event\SubscriberInterface
 	 * ...
 	 *
 	 * @param integer   $articleId
+     * @param Request   $request
 	 *
 	 * @return array
 	 */
 
-	private function getAccessories( $articleId )
+	private function getAccessories( $articleId, $request )
 	{
 		// get services
 		/* @var $contextService \Shopware\Bundle\StoreFrontBundle\Service\ContextServiceInterface */
@@ -289,6 +293,9 @@ class Detail implements \Enlight\Event\SubscriberInterface
                 // get the image
                 $image = $cover->getThumbnail( 0 )->getSource();
 
+                // get the full url
+                $path = $this->getUrl( $image, $mediaService, $request );
+
 
 
 				// add as attribute
@@ -297,7 +304,7 @@ class Detail implements \Enlight\Event\SubscriberInterface
 					new \Shopware\Bundle\StoreFrontBundle\Struct\Attribute(
 						array(
 							'formattedPrice' => $price,
-							'image'          => $mediaService->getUrl( $image )
+							'image'          => $path
 						)
 					)
 				);
@@ -324,6 +331,44 @@ class Detail implements \Enlight\Event\SubscriberInterface
 		return $groups;
 	}
 
+
+
+
+
+    /**
+     * ...
+     *
+     * @param string         $path
+     * @param MediaService   $mediaService
+     * @param Request        $request
+     *
+     * @return string
+     */
+
+    private function getUrl( $path, $mediaService, $request )
+    {
+        // get the path
+        $mediaPath = $mediaService->getUrl( $path );
+
+        // force the media path to use www.
+        $mediaPath = str_replace( "://aquatuning.de", "://www.aquatuning.de", $mediaPath );
+
+        // set path with our own domain
+        $selfPath  = ( $request->isSecure() ? "https" : "http" ) . "://" . $request->getHttpHost() . $request->getBasePath() . "/";
+
+        // use the original media path and replace it with both http and https
+        $path = str_replace(
+            array( "http://www.aquatuning.de/", "https://www.aquatuning.de/" ),
+            array( $selfPath, $selfPath ),
+            $mediaPath
+        );
+
+        // our path gets doubled when using getUrl() in media service and has to be removed...
+        $path = str_replace( $selfPath . $selfPath, $selfPath, $path );
+
+        // return them
+        return $path;
+    }
 
 
 
