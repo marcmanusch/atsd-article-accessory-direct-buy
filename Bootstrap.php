@@ -56,6 +56,9 @@
  * 2.1.2
  * - fixed article images
  *
+ * 2.1.3
+ * - shorten article names to one line with following dots
+ *
  * @category  Aquatuning
  * @package   Shopware\Plugins\AtsdArticleAccessoryDirectBuy
  * @copyright Copyright (c) 2013, Aquatuning GmbH
@@ -71,7 +74,7 @@ class Shopware_Plugins_Frontend_AtsdArticleAccessoryDirectBuy_Bootstrap extends 
 
     // info
     private $pluginInfo = array(
-        'version'     => "2.1.2",
+        'version'     => "2.1.3",
         'label'       => "ATSD - Artikel Direkt-Kauf",
         'description' => "ATSD - Artikel Direkt-Kauf",
         'supplier'    => "Aquatuning GmbH",
